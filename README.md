@@ -44,9 +44,9 @@ go mod init <name project>
 kemudian lakukan instalasi project yang diperlukan, antara lain:
 1. GORM
 2. GORM driver mysql
-3. GIN - GORM
+3. GIN - GONIC
 
-Buatlah database yang diperlukan dan code untuk membuat koneksi ke database menggunakan GORM dengan dua tabel yaitu user dan book dengan kolom yang sudah diatur. Relasi antara kedua tabel adalah user dapat memiliki banyak user tetapi book hanya punya satu user. Gambar dapat dilihat di file : 
+Buatlah database yang diperlukan dan code untuk membuat koneksi ke database menggunakan GORM dengan dua tabel yaitu user dan book dengan kolom yang sudah diatur. Relasi antara kedua tabel adalah user dapat memiliki banyak book tetapi book hanya punya satu user. Gambar dapat dilihat di file : 
 ```
 database_diagram.png
 ```
