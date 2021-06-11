@@ -8,7 +8,7 @@
 **DILARANG MELAKUKAN TINDAKAN ANTARA LAIN :**
 - Dilarang me-copy code baik di website atau di project laptop, wajib mengerjakan dari awal
 - Dilarang bekerja sama atau meminta code ke teman / murid lain
-- tidak mengerjakan project sesuai waktu yang ditentukan (selain jam 09.15 - 17.00)
+- tidak mengerjakan project sesuai waktu yang ditentukan (selain jam 09.30 - 17.00)
 
 **Jika ketahuan melakukan salah satu tindakan diatas, maka dianggap gagal dan mendapat score 0**
 
