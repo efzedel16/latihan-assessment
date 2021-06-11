@@ -32,7 +32,11 @@ berisi contoh isi file .env (environment variable) yang dibutuhkan untuk aplikas
 
 ## Release 1
 
-Silahkan membuat direktori dan inisiasi project:
+Terdapat 2 direktori / folder :
+- folder **backend** yang akan digunakan untuk code REST API / develop back end service
+- folder **frontend** yang akan digunakan untuk code front end / client side
+
+<br/>Kemudian lakukan inisiaiisasi project di folder backend :
 ```
 go mod init <name project>
 ```
@@ -123,7 +127,7 @@ Kemudian pakai di main aplikasi kalian dengan cara menggunakan fungsi .use() dar
 2. (OPTIONAL / POINT PLUS) Silahkan melakukan deployment database mysql menggunakan website yang bisa dimanfaatkan seperti remotemysql.com dan juga lakukan deployment REST API menggunakan heroku.
 
 ## Release 5
-
+Lakukan pengerjaan mulai dari Release 5 di folder **frontend** :
 1. Buatlah project baru front end apllication menggunakan ReactJS
 2. Buatlah page antara lain:
 - Home
