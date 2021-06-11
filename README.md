@@ -122,8 +122,12 @@ func CORSMiddleware() gin.HandlerFunc {
 
 ```
 
+atau melihat dari referensi :
+```
+https://stackoverflow.com/questions/29418478/go-gin-framework-cors
+```
 Kemudian pakai di main aplikasi kalian dengan cara menggunakan fungsi .use() dari package GIN-GONIC
-<br/>
+
 2. (OPTIONAL / POINT PLUS) Silahkan melakukan deployment database mysql menggunakan website yang bisa dimanfaatkan seperti remotemysql.com dan juga lakukan deployment REST API menggunakan heroku.
 
 ## Release 5
