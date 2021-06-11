@@ -3,7 +3,7 @@ package entities
 import "time"
 
 type Book struct {
-	BookId    int
+	Id        int
 	UserId    int
 	Title     string
 	Author    string
