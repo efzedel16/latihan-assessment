@@ -9,10 +9,10 @@ import (
 )
 
 type UserService interface {
-	SignUpUser(input inputs.UserInputSignUp) (entities.User, error)
-	SignInUser(input inputs.UserInputSignIn) (entities.User, error)
-	UpdateUserById(inputId inputs.InputUserId, input inputs.UpdateUserInput) (entities.User, error)
-	// GetAllUsers() ([]formatters.UserDataFormatter, error)
+	SignUpUser(inputSignUp inputs.UserInputSignUp) (entities.User, error)
+	SignInUser(inputSignIn inputs.UserInputSignIn) (entities.User, error)
+	UpdateUserById(inputId inputs.InputUserId, inputData inputs.UpdateUserInput) (entities.User, error)
+	GetAllUsers() ([]entities.User, error)
 	GetUserById(inputId inputs.InputUserId) (entities.User, error)
 }
 
@@ -24,61 +24,88 @@ func NewUserService(userRepository repositories.UserRepository) *userService {
 	return &userService{userRepository}
 }
 
-func (s *userService) SignUpUser(input inputs.UserInputSignUp) (entities.User, error) {
-	password, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.MinCost)
-	user := entities.User{
-		Name:     input.Name,
-		Email:    input.Email,
-		Password: string(password),
+func (s *userService) SignUpUser(inputSignUp inputs.UserInputSignUp) (entities.User, error) {
+	passwordHash, err := bcrypt.GenerateFromPassword([]byte(inputSignUp.Password), bcrypt.MinCost)
+	userData := entities.User{
+		Name:     inputSignUp.Name,
+		Email:    inputSignUp.Email,
+		Password: string(passwordHash),
 	}
 
 	if err != nil {
-		return user, err
+		return userData, err
 	}
 
-	newUser, err := s.userRepository.InsertUser(user)
+	newUserData, err := s.userRepository.InsertUser(userData)
 	if err != nil {
-		return newUser, err
+		return newUserData, err
 	}
 
-	return newUser, nil
+	return newUserData, nil
 }
 
-func (s *userService) SignInUser(input inputs.UserInputSignIn) (entities.User, error) {
-	userEmail := input.Email
-	userPassword := input.Password
-	user, err := s.userRepository.FindUserByEmail(userEmail)
+func (s *userService) SignInUser(inputSignIn inputs.UserInputSignIn) (entities.User, error) {
+	userData := entities.User{
+		Email: inputSignIn.Email,
+		Password: inputSignIn.Password,
+	}
+	userData, err := s.userRepository.FindUserByEmail(userData.Email)
 	if err != nil {
-		return user, err
+		return userData, err
 	}
 
-	if user.Id == 0 {
-		return user, errors.New("no user found with this email")
+	if userData.Id == 0 {
+		return userData, errors.New("no user found with this email")
 	}
 
-	if err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userPassword)); err != nil {
-		return user, err
+	if err = bcrypt.CompareHashAndPassword([]byte(userData.Password), []byte(userData.Password)); err != nil {
+		return userData, err
 	}
 
-	return user, nil
+	return userData, nil
 }
 
-func (s *userService) UpdateUserById(inputId inputs.InputUserId, input inputs.UpdateUserInput) (entities.User, error) {
-	user, err := s.userRepository.FindUserById(inputId.Id)
+func (s *userService) UpdateUserById(inputId inputs.InputUserId, inputUpdateData inputs.UpdateUserInput) (entities.User, error) {
+	userData, err := s.userRepository.FindUserById(inputId.Id)
 	if err != nil {
-		return user, nil
+		return userData, nil
 	}
 
-	user.Name = input.Name
-	user.Email = input.Email
-	if user.Id == 0 {
-		return user, errors.New("not the user")
+	userData.Name = inputUpdateData.Name
+	userData.Email = inputUpdateData.Email
+
+	if userData.Id == 0 {
+		return userData, errors.New("not the user")
 	}
 
-	updateUser, err := s.userRepository.UpdateUser(user)
+	updateDataUser, err := s.userRepository.UpdateUser(userData)
 	if err != nil {
-		return updateUser, nil
+		return updateDataUser, nil
 	}
 
-	return user, nil
+	return updateDataUser, nil
+}
+
+func (s *userService) GetAllUsers() ([]entities.User, error) {
+	var userData []entities.User
+	userData, err := s.userRepository.FindAllUsers()
+
+	if err != nil {
+		return userData, err
+	}
+
+	return userData, nil
+}
+
+func (s *userService) GetUserById(inputId inputs.InputUserId) (entities.User, error) {
+	userData, err := s.userRepository.FindUserById(inputId.Id)
+	if err != nil {
+		return userData, err
+	}
+
+	if userData.Id == 0 {
+		return userData, errors.New("there aren't users with this id")
+	}
+
+	return userData, nil
 }
